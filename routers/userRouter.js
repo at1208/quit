@@ -4,7 +4,7 @@ const { singup, signin } = require("../controllers/userController");
 const {
   signupSchemaValidator,
   signinSchemaValdator,
-} = require("../validators/singupSchemaValidator");
+} = require("../validators/authSchemaValidator");
 
 router.post("/signup", signupSchemaValidator, singup);
 router.post("/signin", signinSchemaValdator, signin);
