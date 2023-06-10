@@ -1,18 +1,20 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import bodyParser from "body-parser";
 const app = express();
 const http = require("http").createServer(app);
 
-const userRoutes = require("./routers/userRouter");
-const categoryRoutes = require("./routers/categoryRouter");
-const tagRoutes = require("./routers/tagRouter");
-const commentRoutes = require("./routers/commentRouter");
-const blogRoutes = require("./routers/blogRouter");
+import userRoutes from "./routers/userRouter";
+import categoryRoutes from "./routers/categoryRouter";
+import tagRoutes from "./routers/tagRouter";
+import commentRoutes from "./routers/commentRouter";
+import blogRoutes from "./routers/blogRouter";
+import initializeSocket from "./socket";
+import dotenv from "dotenv";
 
-require("./socket")(http);
-require("dotenv").config();
+initializeSocket(http);
+dotenv.config();
 
 mongoose
   .connect(process.env.DATABASE, {

@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const categorySchema = Joi.object().keys({
   name: Joi.string().required().messages({
@@ -7,7 +7,7 @@ const categorySchema = Joi.object().keys({
   }),
 });
 
-module.exports.createCategorySchemaValidator = (req, res, next) => {
+export function createCategorySchemaValidator(req, res, next) {
   const reqData = req.body;
   const validationResult = categorySchema.validate(reqData);
   if (validationResult.error) {
@@ -17,4 +17,4 @@ module.exports.createCategorySchemaValidator = (req, res, next) => {
   } else {
     next();
   }
-};
+}

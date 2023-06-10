@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const commentSchema = Joi.object().keys({
   postId: Joi.required(),
@@ -6,7 +6,7 @@ const commentSchema = Joi.object().keys({
   content: Joi.string().required(),
 });
 
-module.exports.createCommentSchemaValidator = (req, res, next) => {
+export function createCommentSchemaValidator(req, res, next) {
   const reqData = req.body;
   const validationResult = commentSchema.validate(reqData);
   if (validationResult.error) {
@@ -16,4 +16,4 @@ module.exports.createCommentSchemaValidator = (req, res, next) => {
   } else {
     next();
   }
-};
+}

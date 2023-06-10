@@ -1,10 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const { createBlog } = require("../controllers/blogController");
-const {
-  createBlogSchemaValidator,
-} = require("../validators/blogSchemaValidator");
+import { Router } from "express";
+const router = Router();
+import { createBlog } from "../controllers/blogController";
+import { createBlogSchemaValidator } from "../validators/blogSchemaValidator";
 
 router.post("/blog", createBlogSchemaValidator, createBlog);
 
-module.exports = router;
+export default router;

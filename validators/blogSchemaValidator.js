@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const blogSchema = Joi.object().keys({
   title: Joi.string().required().min(3).max(70),
@@ -21,7 +21,7 @@ const blogSchema = Joi.object().keys({
     }),
 });
 
-module.exports.createBlogSchemaValidator = (req, res, next) => {
+export function createBlogSchemaValidator(req, res, next) {
   const reqData = req.body;
   const validationResult = blogSchema.validate(reqData);
   if (validationResult.error) {
@@ -31,4 +31,4 @@ module.exports.createBlogSchemaValidator = (req, res, next) => {
   } else {
     next();
   }
-};
+}

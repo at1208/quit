@@ -1,16 +1,16 @@
-const User = require("../models/userModel");
-const bcrypt = require("bcrypt");
-const fs = require("fs");
-const jwt = require("jsonwebtoken");
+import User, { findOne } from "../models/userModel";
+import { hash, compare } from "bcrypt";
+import { readFileSync } from "fs";
+import { sign } from "jsonwebtoken";
 
-const privateKey = fs.readFileSync("./private.key", "utf8");
+const privateKey = readFileSync("./private.key", "utf8");
 
-module.exports.singup = async (req, res) => {
+export async function singup(req, res) {
   const { name, email, password } = req.body;
   let saltRounds = 10;
   try {
-    let hashedPassword = await bcrypt.hash(password, saltRounds);
-    let user = await User.findOne({ email });
+    let hashedPassword = await hash(password, saltRounds);
+    let user = await findOne({ email });
     if (user) {
       return res.status(400).json({
         error: "User is already exist",
@@ -21,21 +21,21 @@ module.exports.singup = async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-};
+}
 
-module.exports.signin = async (req, res) => {
+export async function signin(req, res) {
   const { email, password } = req.body;
   try {
-    let user = await User.findOne({ email });
+    let user = await findOne({ email });
     if (!user) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
-    let result = await bcrypt.compare(password, user.hashedPassword);
+    let result = await compare(password, user.hashedPassword);
     if (!result) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
 
-    let token = jwt.sign(
+    let token = sign(
       {
         userId: user._id,
       },
@@ -54,4 +54,4 @@ module.exports.signin = async (req, res) => {
       error: error.message,
     });
   }
-};
+}

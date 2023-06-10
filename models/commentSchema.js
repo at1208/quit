@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema;
+import { Schema, model } from "mongoose";
+const { ObjectId } = Schema;
 
-const commentSchema = mongoose.Schema(
+const commentSchema = Schema(
   {
     postId: {
       type: ObjectId,
@@ -21,9 +21,10 @@ const commentSchema = mongoose.Schema(
     repliedTo: {
       type: ObjectId,
       ref: "User",
+      default: null,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Comment", commentSchema);
+export default model("Comment", commentSchema);

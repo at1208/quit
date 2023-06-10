@@ -4,7 +4,7 @@
   "description": "quit service",
   "main": "server.js",
   "scripts": {
-    "dev": "node server",
+    "dev": "nodemon --exec babel-node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aman Tiwari",
@@ -19,7 +19,15 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.2.2",
+    "node-fetch": "^2.6.1",
     "slugify": "^1.6.6",
-    "socket.io": "^4.6.2"
+    "socket.io": "^4.6.2",
+    "string-strip-html": "^13.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.5",
+    "@babel/node": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "nodemon": "^1.19.1"
   }
 }

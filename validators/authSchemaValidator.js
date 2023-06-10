@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const signupSchema = Joi.object().keys({
   name: Joi.string().required(),
@@ -11,7 +11,7 @@ const signinSchema = Joi.object().keys({
   password: Joi.string().min(7).max(100).required(),
 });
 
-module.exports.signupSchemaValidator = (req, res, next) => {
+export function signupSchemaValidator(req, res, next) {
   const reqUser = req.body;
   const validationResult = signupSchema.validate(reqUser);
   if (validationResult.error) {
@@ -21,9 +21,9 @@ module.exports.signupSchemaValidator = (req, res, next) => {
   } else {
     next();
   }
-};
+}
 
-module.exports.signinSchemaValdator = (req, res, next) => {
+export function signinSchemaValdator(req, res, next) {
   const reqUser = req.body;
   const validationResult = signinSchema.validate(reqUser);
   if (validationResult.error) {
@@ -33,4 +33,4 @@ module.exports.signinSchemaValdator = (req, res, next) => {
   } else {
     next();
   }
-};
+}

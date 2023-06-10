@@ -1,10 +1,10 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const tagSchema = Joi.object().keys({
   name: Joi.string().required(),
 });
 
-module.exports.createTagSchemaValidator = (req, res, next) => {
+export function createTagSchemaValidator(req, res, next) {
   const reqData = req.body;
   const validationResult = tagSchema.validate(reqData);
   if (validationResult.error) {
@@ -14,4 +14,4 @@ module.exports.createTagSchemaValidator = (req, res, next) => {
   } else {
     next();
   }
-};
+}

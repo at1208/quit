@@ -1,12 +1,12 @@
-const express = require("express");
-const router = express.Router();
-const { singup, signin } = require("../controllers/userController");
-const {
+import { Router } from "express";
+const router = Router();
+import { singup, signin } from "../controllers/userController";
+import {
   signupSchemaValidator,
   signinSchemaValdator,
-} = require("../validators/authSchemaValidator");
+} from "../validators/authSchemaValidator";
 
 router.post("/signup", signupSchemaValidator, singup);
 router.post("/signin", signinSchemaValdator, signin);
 
-module.exports = router;
+export default router;

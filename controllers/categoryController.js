@@ -1,7 +1,8 @@
-const Category = require("../models/categorySchema");
-const slugify = require("slugify");
+import Category from "../models/categorySchema";
+import slugify from "slugify";
+import { errorHandler } from "../utils/dbErrorHandler";
 
-module.exports.createCategory = async (req, res) => {
+export async function createCategory(req, res) {
   const { name } = req.body;
   let slug = await slugify(name);
   try {
@@ -11,7 +12,7 @@ module.exports.createCategory = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      error: error.message,
+      error: errorHandler(error),
     });
   }
-};
+}

@@ -1,10 +1,8 @@
-const express = require("express");
-const router = express.Router();
-const { createTag } = require("../controllers/tagController");
-const {
-  createTagSchemaValidator,
-} = require("../validators/tagSchemaValidator");
+import { Router } from "express";
+const router = Router();
+import { createTag } from "../controllers/tagController";
+import { createTagSchemaValidator } from "../validators/tagSchemaValidator";
 
 router.post("/tag", createTagSchemaValidator, createTag);
 
-module.exports = router;
+export default router;

@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema;
+import { Schema, model } from "mongoose";
+const { ObjectId } = Schema;
 
-const blogSchema = mongoose.Schema(
+const blogSchema = Schema(
   {
     title: {
       type: String,
@@ -68,4 +68,4 @@ const blogSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Blog", blogSchema);
+export default model("Blog", blogSchema);

@@ -1,7 +1,8 @@
-const Tag = require("../models/tagSchema");
-const slugify = require("slugify");
+import Tag from "../models/tagSchema";
+import slugify from "slugify";
+import { errorHandler } from "../utils/dbErrorHandler";
 
-module.exports.createTag = async (req, res) => {
+export async function createTag(req, res) {
   const { name } = req.body;
   let slug = await slugify(name);
   try {
@@ -11,7 +12,7 @@ module.exports.createTag = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      error: error.message,
+      error: errorHandler(error),
     });
   }
-};
+}

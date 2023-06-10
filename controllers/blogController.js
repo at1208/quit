@@ -1,15 +1,17 @@
-const Blog = require("../models/blogSchema");
-const slugify = require("slugify");
+import Blog from "../models/blogSchema";
+import slugify from "slugify";
+import { smartTrim } from "../utils/blog";
+import { errorHandler } from "../utils/dbErrorHandler";
 
-module.exports.createBlog = async (req, res) => {
+export async function createBlog(req, res) {
   const { title, body, featureImg, postedBy, categories, tags, faqs } =
     req.body;
   let slug = slugify(title?.toLowerCase());
-  let mtitle = title;
-  let mdesc = body?.slice(0, 180);
-  let excerpt = body?.slice(0, 400) + "...";
+  let mtitle = `${title} | ${process.env.APP_NAME || ""}`;
+  let mdesc = body.substring(0, 160);
+  let excerpt = smartTrim(body, 160, " ", " ...");
   try {
-    const blog = await Blog({
+    await Blog({
       title,
       slug,
       body,
@@ -22,10 +24,12 @@ module.exports.createBlog = async (req, res) => {
       tags,
       faqs,
     }).save();
-    return res.json(blog);
+    return res.json({
+      message: `Blog '${title}' created successfully`,
+    });
   } catch (error) {
     res.status(400).json({
-      error: error.message,
+      error: errorHandler(error),
     });
   }
-};
+}
