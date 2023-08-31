@@ -4,7 +4,7 @@ import { errorHandler } from "../utils/dbErrorHandler";
 
 export async function createCategory(req, res) {
   const { name } = req.body;
-  let slug = await slugify(name);
+  let slug = slugify(name);
   try {
     let category = await Category({ name, slug }).save();
     return res.json({

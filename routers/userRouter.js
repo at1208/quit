@@ -5,7 +5,7 @@ import {
   signupSchemaValidator,
   signinSchemaValdator,
 } from "../validators/authSchemaValidator";
-
+// import { requireSignin } from "../controllers/userController";
 router.post("/signup", signupSchemaValidator, singup);
 router.post("/signin", signinSchemaValdator, signin);
 

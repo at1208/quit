@@ -1,7 +1,7 @@
-import User, { findOne } from "../models/userModel";
+import User from "../models/userModel";
 import { hash, compare } from "bcrypt";
 import { readFileSync } from "fs";
-import { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const privateKey = readFileSync("./private.key", "utf8");
 
@@ -10,7 +10,7 @@ export async function singup(req, res) {
   let saltRounds = 10;
   try {
     let hashedPassword = await hash(password, saltRounds);
-    let user = await findOne({ email });
+    let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({
         error: "User is already exist",
@@ -26,7 +26,7 @@ export async function singup(req, res) {
 export async function signin(req, res) {
   const { email, password } = req.body;
   try {
-    let user = await findOne({ email });
+    let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
@@ -35,7 +35,7 @@ export async function signin(req, res) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
 
-    let token = sign(
+    let token = jwt.sign(
       {
         userId: user._id,
       },
@@ -45,8 +45,13 @@ export async function signin(req, res) {
         algorithm: "RS256",
       }
     );
+    let loggedInUser = {
+      name: user?.name,
+      email: user?.email,
+      userId: user?._id,
+    };
     return res.json({
-      user: { name: user?.name, email: user?.email, userId: user?._id },
+      user: loggedInUser,
       token,
     });
   } catch (error) {
@@ -54,4 +59,23 @@ export async function signin(req, res) {
       error: error.message,
     });
   }
+}
+
+export function requireSignin(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "Missing token from the request header" });
+  }
+
+  jwt.verify(token, privateKey, (error, decoded) => {
+    if (error) {
+      return res.status(403).json({ message: "Invalid or expired token." });
+    }
+    req.user = decoded;
+    next();
+  });
 }

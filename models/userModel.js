@@ -8,6 +8,10 @@ const userSchema = new Schema(
       min: 2,
       required: true,
     },
+    role: {
+      type: Number,
+      default: 0,
+    },
     email: {
       type: String,
       max: 50,

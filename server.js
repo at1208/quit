@@ -10,6 +10,8 @@ import categoryRoutes from "./routers/categoryRouter";
 import tagRoutes from "./routers/tagRouter";
 import commentRoutes from "./routers/commentRouter";
 import blogRoutes from "./routers/blogRouter";
+import viewRoutes from "./routers/viewRouter";
+
 import initializeSocket from "./socket";
 import dotenv from "dotenv";
 
@@ -34,6 +36,7 @@ app.use("/api", categoryRoutes);
 app.use("/api", tagRoutes);
 app.use("/api", commentRoutes);
 app.use("/api", blogRoutes);
+app.use("/api", viewRoutes);
 
 const port = process.env.PORT || 8000;
 

@@ -46,6 +46,10 @@ const blogSchema = Schema(
       ref: "User",
       required: true,
     },
+    host: {
+      type: ObjectId,
+      ref: "Host",
+    },
     categories: [
       {
         type: ObjectId,

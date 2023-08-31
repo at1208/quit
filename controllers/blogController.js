@@ -33,3 +33,7 @@ export async function createBlog(req, res) {
     });
   }
 }
+
+export async function getBlogs(req, res) {
+  User.find()
+}
